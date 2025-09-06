@@ -1,5 +1,6 @@
 package io.paymeter.assessment.pricing;
 
+import io.paymeter.assessment.domain.pricing.Money;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

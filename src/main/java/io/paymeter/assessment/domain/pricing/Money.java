@@ -1,6 +1,5 @@
-package io.paymeter.assessment.pricing;
+package io.paymeter.assessment.domain.pricing;
 
-import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Objects;
 
