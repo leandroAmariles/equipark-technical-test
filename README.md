@@ -105,3 +105,21 @@ curl -X POST http://localhost:8080/tickets/calculate \
   -H "Content-Type: application/json" \
   -d '{"parkingId":"P000123","from":"2024-02-27T09:00:00"}'
 ```
+
+## Solution
+
+The solution is implemented in Java using Spring Boot framework. It includes a RESTful API endpoint to calculate parking fees based on the provided parking ID and time range.
+
+To test the solution, you can up the docker-compose and send a POST request to the `/tickets/calculate` local port 8080 endpoint with the required JSON payload.
+
+The payload is:
+
+```json
+{
+  "parkingId": "P000123",
+  "from": "2024-02-27T09:00:00",
+  "to": "2024-02-27T18:30:00"
+}
+```
+
+The SQL scripts are in the file resources/migration. 
