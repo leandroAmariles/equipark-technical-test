@@ -14,21 +14,18 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Pricing {
 
-    @Id
     private Long pricingId;
 
     private BigDecimal hourlyPrice;
 
     private String currencyCode;
 
-    @OneToMany(mappedBy = "pricing", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DiscountRule> discountRule;
 
 }

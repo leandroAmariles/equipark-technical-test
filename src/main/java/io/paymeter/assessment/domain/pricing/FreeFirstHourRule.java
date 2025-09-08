@@ -1,19 +1,23 @@
 package io.paymeter.assessment.domain.pricing;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-@Entity
-@DiscriminatorValue("FREE_FIRST_HOUR")
+@Getter
+@Setter
+@AllArgsConstructor
 public class FreeFirstHourRule extends DiscountRule {
 
 
     @Override
-    public BigDecimal apply(BigDecimal basePrice, Duration duration, LocalDateTime from, LocalDateTime to) {
+    public BigDecimal apply(Pricing pricing,BigDecimal basePrice, Duration duration, LocalDateTime from, LocalDateTime to) {
         if (duration.toMinutes() <= 60) {
             return BigDecimal.ZERO;
         }

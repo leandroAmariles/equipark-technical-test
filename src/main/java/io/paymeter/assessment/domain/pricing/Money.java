@@ -1,5 +1,6 @@
 package io.paymeter.assessment.domain.pricing;
 
+import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.Objects;
 
@@ -34,4 +35,12 @@ public class Money {
     public int hashCode() {
         return Objects.hash(amount, currency);
     }
+
+
+    public String generatePriceFormat(BigDecimal price) {
+        int intAmount = price.movePointRight(2).intValueExact();
+        return intAmount + currency.getCurrencyCode();
+    }
+
+
 }
