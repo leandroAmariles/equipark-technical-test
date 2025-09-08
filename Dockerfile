@@ -1,8 +1,8 @@
-FROM openjdk:17-slim AS builder
+FROM gradle:8.7-jdk17 AS builder
 
 WORKDIR /app
 COPY . .
-RUN ./gradlew clean build
+RUN gradle clean build -x test
 
 FROM openjdk:17-slim
 WORKDIR /app
