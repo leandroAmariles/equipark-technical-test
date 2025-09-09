@@ -30,7 +30,7 @@ public class CalculatingService implements ICalculatingService {
     @Override
     public CalculationResponse calculateTicket(CalculationRequest request) {
         LocalDateTime dateTimeFrom = LocalDateTime.parse(request.from(), DateTimeFormatter.ISO_DATE_TIME);
-        LocalDateTime dateTimeTo = LocalDateTime.parse(request.to(), DateTimeFormatter.ISO_DATE_TIME);
+        LocalDateTime dateTimeTo = LocalDateTime.now();
         Pricing parking = parkingAdapter.getPricingById(request.parkingId());
         Duration duration = calculateDuration(dateTimeFrom, dateTimeTo);
 

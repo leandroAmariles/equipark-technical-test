@@ -8,10 +8,7 @@ public record CalculationRequest(
         String parkingId,
 
         @NotNull
-        String from,
-
-        @NotNull
-        String to
+        String from
 
 ) {
 }

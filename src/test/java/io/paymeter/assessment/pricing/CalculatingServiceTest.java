@@ -43,8 +43,8 @@ class CalculatingServiceTest {
     @Test
     void shouldCalculateTicket_withFreeFirstHourRule() {
 
-        LocalDateTime from = LocalDateTime.of(2025, 9, 7, 10, 0);
-        LocalDateTime to = from.plusHours(1);
+        LocalDateTime from = LocalDateTime.now();
+        LocalDateTime to = from.minusHours(1);
 
         DiscountRule freeFirstHour = new FreeFirstHourRule();
         freeFirstHour.setPricing(pricing);
@@ -63,7 +63,7 @@ class CalculatingServiceTest {
 
         when(parkingAdapter.getPricingById("456")).thenReturn(pricing);
 
-        CalculationRequest request = new CalculationRequest("456", from.toString(), to.toString());
+        CalculationRequest request = new CalculationRequest("456", to.toString());
 
         CalculationResponse response = calculatingService.calculateTicket(request);
 
@@ -73,8 +73,8 @@ class CalculatingServiceTest {
 
     @Test
     void shouldCalculateTicket_withFreeFirstHourRuleTwoHours() {
-        LocalDateTime from = LocalDateTime.of(2025, 9, 7, 10, 0);
-        LocalDateTime to = from.plusMinutes(120);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime to = now.minusHours(2);
 
         DiscountRule freeFirstHour = new FreeFirstHourRule();
         freeFirstHour.setPricing(pricing);
@@ -89,7 +89,7 @@ class CalculatingServiceTest {
 
         when(parkingAdapter.getPricingById("456")).thenReturn(pricing);
 
-        CalculationRequest request = new CalculationRequest("456", from.toString(), to.toString());
+        CalculationRequest request = new CalculationRequest("456", to.toString());
 
         CalculationResponse response = calculatingService.calculateTicket(request);
 
@@ -99,8 +99,8 @@ class CalculatingServiceTest {
 
     @Test
     void shouldCalculateTicket_withMaxPriceRule() {
-        LocalDateTime from = LocalDateTime.of(2025, 9, 7, 8, 0);
-        LocalDateTime to = from.plusHours(15);
+        LocalDateTime from = LocalDateTime.now();
+        LocalDateTime to = from.minusHours(15);
 
         MaxPricePerDayRule maxRule = new MaxPricePerDayRule();
         maxRule.setPricing(pricing);
@@ -111,20 +111,20 @@ class CalculatingServiceTest {
 
         when(parkingAdapter.getPricingById("456")).thenReturn(pricing);
 
-        CalculationRequest request = new CalculationRequest("456", from.toString(), to.toString());
+        CalculationRequest request = new CalculationRequest("456", to.toString());
 
         CalculationResponse response = calculatingService.calculateTicket(request);
 
 
         assertThat(response.price()).isEqualTo("1500EUR"); // capped by rule
-        assertThat(response.duration()).isEqualTo((int) Duration.between(from, to).toMinutes());
+        assertThat(response.duration()).isEqualTo((int) Duration.between(to, from).toMinutes());
     }
 
     @Test
     void shouldCalculateTicket_withMaxPriceRuleTwoDays() {
 
-        LocalDateTime from = LocalDateTime.of(2025, 9, 7, 8, 0);
-        LocalDateTime to = from.plusHours(48);
+        LocalDateTime from = LocalDateTime.now();
+        LocalDateTime to = from.minusHours(48);
 
         MaxPricePerDayRule maxRule = new MaxPricePerDayRule();
         maxRule.setPricing(pricing);
@@ -135,20 +135,20 @@ class CalculatingServiceTest {
 
         when(parkingAdapter.getPricingById("456")).thenReturn(pricing);
 
-        CalculationRequest request = new CalculationRequest("456", from.toString(), to.toString());
+        CalculationRequest request = new CalculationRequest("456", to.toString());
 
 
         CalculationResponse response = calculatingService.calculateTicket(request);
 
         assertThat(response.price()).isEqualTo("3000EUR"); // capped by rule
-        assertThat(response.duration()).isEqualTo((int) Duration.between(from, to).toMinutes());
+        assertThat(response.duration()).isEqualTo((int) Duration.between(to, from).toMinutes());
     }
 
     @Test
     void shouldCalculateTicket_withMultipleRules() {
 
-        LocalDateTime from = LocalDateTime.of(2025, 9, 7, 8, 0);
-        LocalDateTime to = from.plusHours(13);
+        LocalDateTime from = LocalDateTime.now();
+        LocalDateTime to = from.minusHours(13);
 
         FreeFirstHourRule freeRule = new FreeFirstHourRule();
         freeRule.setPricing(pricing);
@@ -164,12 +164,12 @@ class CalculatingServiceTest {
 
         when(parkingAdapter.getPricingById("456")).thenReturn(pricing);
 
-        CalculationRequest request = new CalculationRequest("456", from.toString(), to.toString());
+        CalculationRequest request = new CalculationRequest("456", to.toString());
 
 
         CalculationResponse response = calculatingService.calculateTicket(request);
 
         assertThat(response.price()).isEqualTo("2300EUR");
-        assertThat(response.duration()).isEqualTo((int) Duration.between(from, to).toMinutes());
+        assertThat(response.duration()).isEqualTo((int) Duration.between(to, from).toMinutes());
     }
 }
